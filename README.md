@@ -4,7 +4,7 @@
 
 SentinelML begins as a small phishing-URL classifier and, sprint by sprint, grows into a real-time threat-detection system with a scoring API, a database, a dashboard, and tests against attacks on the model itself. Each level ships a working, tested release before the next one begins.
 
-> **Status: planning.** This repository currently contains the planning documents only (SDLC, requirements, architecture, sprint plan). Code will be added level by level, starting with Sprint 1 on **Nov 2, 2026**.
+> **Status: Sprint 1 in progress (Level 1).** The planning documents are done, the dataset is built, and `extract_features()` is written and tested. Still to come this sprint: the train/test split, the baseline and Random Forest models, and the metrics report.
 
 ## The five levels
 
@@ -64,6 +64,31 @@ No duplicate URLs. The classes are balanced because the benign side was randomly
 
 **Known caveat:** Tranco gives bare domains, so benign rows are `https://domain` with no path, while phishing URLs are longer (median 37 vs 21 characters). A model could score well just by learning "short means benign". Keep this in mind when reading Story 3 results.
 
+## Level 1 features
+
+`extract_features(url)` in `src/features.py` returns 8 numbers per URL:
+
+| Feature | Meaning |
+| --- | --- |
+| `url_length` | characters in the whole URL |
+| `domain_length` | characters in the domain (including any port) |
+| `digits_in_url` | digits anywhere in the URL |
+| `digits_in_domain` | digits in the domain only |
+| `dot_count` | dots in the domain (many dots suggest stacked subdomains) |
+| `hyphen_count` | hyphens in the domain (common in lookalike names) |
+| `has_at` | 1 if the URL contains `@`, which browsers treat as a userinfo separator |
+| `has_ip` | 1 if the domain is an IP address instead of a name |
+
+## Running the tests
+
+```
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+pytest
+```
+
+Lint with `ruff check src tests`. Pre-commit runs `ruff` and `gitleaks` on every commit.
+
 ## How the project is run
 
 - One-week sprints, one sprint goal each, tagged releases at the end of every level.
@@ -75,9 +100,9 @@ No duplicate URLs. The classes are balanced because the benign side was randomly
 
 ```
 sentinelml/
-├── docs/          planning documents (this is all that exists today)
-├── data/          datasets (not committed if large)
-├── src/           feature extraction, training, scoring code
+├── docs/          planning documents
+├── data/          datasets (raw downloads are not committed)
+├── src/           dataset building, feature extraction, training (scoring code comes later)
 ├── tests/         unit tests and data checks
 ├── notebooks/     exploration and EDA
 └── reports/       metrics and evaluation write-ups per sprint
@@ -97,4 +122,4 @@ Dates assume about 10 to 12 focused hours a week and will slide if other priorit
 
 ## License
 
-MIT (to be added with Sprint 1).
+MIT. See [LICENSE](LICENSE).
