@@ -1,0 +1,6 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Public phishing URLs contain token-shaped strings"
+paths = ['''data/urls\.csv''']

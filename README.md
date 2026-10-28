@@ -50,6 +50,20 @@ All public and labeled; no real credentials, personal data or live malicious pay
 - **Level 2:** NSL-KDD or CIC-IDS2017 network-flow data
 - **Level 3:** public authentication or web-server log samples, with injected anomalies for testing
 
+## Level 1 dataset
+
+`python src/build_dataset.py` builds `data/urls.csv` (1 = phishing, 0 = benign) from the raw downloads in `data/raw/` (not committed). Raw sources: PhishTank `online-valid.csv` and the Tranco top-1M list, both downloaded Oct 27, 2026.
+
+| Class | Rows |
+| --- | --- |
+| Phishing (1) | 54,797 |
+| Benign (0) | 54,799 |
+| **Total** | **109,596** |
+
+No duplicate URLs. The classes are balanced because the benign side was randomly sampled (seed 42) to match the phishing count; the full Tranco list is 1M domains.
+
+**Known caveat:** Tranco gives bare domains, so benign rows are `https://domain` with no path, while phishing URLs are longer (median 37 vs 21 characters). A model could score well just by learning "short means benign". Keep this in mind when reading Story 3 results.
+
 ## How the project is run
 
 - One-week sprints, one sprint goal each, tagged releases at the end of every level.
