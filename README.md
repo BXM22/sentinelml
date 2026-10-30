@@ -4,7 +4,7 @@
 
 SentinelML begins as a small phishing-URL classifier and, sprint by sprint, grows into a real-time threat-detection system with a scoring API, a database, a dashboard, and tests against attacks on the model itself. Each level ships a working, tested release before the next one begins.
 
-> **Status: Sprint 1 in progress (Level 1).** The planning documents are done, the dataset is built, and `extract_features()` is written and tested. Still to come this sprint: the train/test split, the baseline and Random Forest models, and the metrics report.
+> **Status: Sprint 1 nearly done (Level 1).** The planning documents, dataset, `extract_features()`, train/test split, majority-class baseline and Random Forest are done, and the metrics are in [reports/sprint1_metrics.md](reports/sprint1_metrics.md). Still to come: check which features the forest relies on (see the caveat below), tests green on a fresh clone, and a metrics screenshot in this README.
 
 ## The five levels
 
@@ -78,6 +78,17 @@ No duplicate URLs. The classes are balanced because the benign side was randomly
 | `hyphen_count` | hyphens in the domain (common in lookalike names) |
 | `has_at` | 1 if the URL contains `@`, which browsers treat as a userinfo separator |
 | `has_ip` | 1 if the domain is an IP address instead of a name |
+
+## Level 1 results (Sprint 1)
+
+Stratified 80/20 split, 21,920 test URLs. Phishing is class 1. Full report: [reports/sprint1_metrics.md](reports/sprint1_metrics.md).
+
+| Model | Phishing recall | Phishing precision | Accuracy |
+| --- | --- | --- | --- |
+| Majority-class baseline | 0.00 | 0.00 | 0.50 |
+| Random Forest | 0.98 | 1.00 | 0.99 |
+
+The forest missed 178 of 10,960 phishing URLs and raised 22 false alarms. The score is probably inflated by the short-benign-URL caveat above; checking `feature_importances_` is the next step.
 
 ## Running the tests
 

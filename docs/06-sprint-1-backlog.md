@@ -6,10 +6,10 @@
 
 As a developer, I want a clean repo so every later level builds on it.
 
-- [ ] Create folders `data/`, `src/`, `tests/`, `notebooks/`, `reports/`
-- [ ] Virtual environment and pinned `requirements.txt`
-- [ ] Pre-commit hooks for `ruff` and `gitleaks`
-- [ ] Add MIT license
+- [x] Create folders `data/`, `src/`, `tests/`, `notebooks/`, `reports/`
+- [x] Virtual environment and pinned `requirements.txt`
+- [x] Pre-commit hooks for `ruff` and `gitleaks`
+- [x] Add MIT license
 
 *Acceptance:* a fresh clone runs `pytest` with zero failures.
 
@@ -17,9 +17,9 @@ As a developer, I want a clean repo so every later level builds on it.
 
 As an analyst, I want a labeled URL dataset so I can train a model.
 
-- [ ] Download a phishing set (UCI Phishing Websites or PhishTank) and a benign list (Tranco)
-- [ ] Merge, deduplicate and label (1 = phishing, 0 = benign)
-- [ ] Log class counts and check for imbalance
+- [x] Download a phishing set (UCI Phishing Websites or PhishTank) and a benign list (Tranco)
+- [x] Merge, deduplicate and label (1 = phishing, 0 = benign)
+- [x] Log class counts and check for imbalance
 
 *Acceptance:* `data/urls.csv` exists, has no duplicate URLs, and counts are documented in the README.
 
@@ -27,10 +27,10 @@ As an analyst, I want a labeled URL dataset so I can train a model.
 
 As a developer, I want a first working model so I have a score to beat.
 
-- [ ] Write `extract_features()` with 8 starter features and 3 unit tests
-- [ ] Stratified 80/20 split with a fixed seed
-- [ ] Train a majority-class baseline and a Random Forest
-- [ ] Print precision, recall, F1 and the confusion matrix for both
+- [x] Write `extract_features()` with 8 starter features and 3 unit tests
+- [x] Stratified 80/20 split with a fixed seed
+- [x] Train a majority-class baseline and a Random Forest
+- [x] Print precision, recall, F1 and the confusion matrix for both
 
 *Acceptance:* Random Forest beats the baseline on phishing-class recall; results saved to `reports/sprint1_metrics.md`.
 
