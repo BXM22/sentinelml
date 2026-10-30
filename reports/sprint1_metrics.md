@@ -35,6 +35,23 @@ The forest missed 178 of 10,960 phishing URLs (the costly error) and raised 22 f
 
 The Random Forest beats the baseline on phishing recall (0.98 vs 0.00), so the Story 3 acceptance criterion is met. It also clears the Level 1 target of recall >= 0.90 early.
 
+## Feature importances
+
+`python src/train.py` now also prints `forest.feature_importances_` (they sum to 1.0):
+
+| Feature | Importance |
+| --- | --- |
+| `url_length` | 0.365 |
+| `domain_length` | 0.290 |
+| `dot_count` | 0.152 |
+| `digits_in_url` | 0.133 |
+| `digits_in_domain` | 0.035 |
+| `hyphen_count` | 0.023 |
+| `has_at` | 0.001 |
+| `has_ip` | 0.000 |
+
 ## Caveat: do not trust the score yet
 
-Benign rows are bare domains (`https://domain`), while phishing URLs are longer, so the forest may be learning "long URL means phishing". Not yet checked: `forest.feature_importances_`. If `url_length` and `domain_length` dominate, the 0.98 overstates real-world performance. Planned for Sprint 2: inspect the importances and add path-based or otherwise less length-dependent features.
+Benign rows are bare domains (`https://domain`), while phishing URLs are longer. The importances confirm the worry: the two length features carry about 65% of the forest's decisions. The 0.98 recall therefore likely overstates real-world performance, because a real benign URL often has a path and would look "long". `has_at` and `has_ip` barely matter, since they are rare in this data.
+
+Planned for Sprint 2: add path-based or otherwise less length-dependent features, and either give benign URLs realistic paths or evaluate on a test set where lengths are comparable.

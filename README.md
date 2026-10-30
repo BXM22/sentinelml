@@ -4,7 +4,7 @@
 
 SentinelML begins as a small phishing-URL classifier and, sprint by sprint, grows into a real-time threat-detection system with a scoring API, a database, a dashboard, and tests against attacks on the model itself. Each level ships a working, tested release before the next one begins.
 
-> **Status: Sprint 1 nearly done (Level 1).** The planning documents, dataset, `extract_features()`, train/test split, majority-class baseline and Random Forest are done, and the metrics are in [reports/sprint1_metrics.md](reports/sprint1_metrics.md). Still to come: check which features the forest relies on (see the caveat below), tests green on a fresh clone, and a metrics screenshot in this README.
+> **Status: Sprint 1 done (Level 1).** The planning documents, dataset, `extract_features()`, train/test split, majority-class baseline and Random Forest are done, tests pass on a fresh clone, and the metrics are in [reports/sprint1_metrics.md](reports/sprint1_metrics.md). Feature importances show the score leans heavily on URL length (see the caveat below), which Sprint 2 addresses.
 
 ## The five levels
 
@@ -88,7 +88,7 @@ Stratified 80/20 split, 21,920 test URLs. Phishing is class 1. Full report: [rep
 | Majority-class baseline | 0.00 | 0.00 | 0.50 |
 | Random Forest | 0.98 | 1.00 | 0.99 |
 
-The forest missed 178 of 10,960 phishing URLs and raised 22 false alarms. The score is probably inflated by the short-benign-URL caveat above; checking `feature_importances_` is the next step.
+The forest missed 178 of 10,960 phishing URLs and raised 22 false alarms. Feature importances confirm the short-benign-URL caveat: `url_length` (0.37) and `domain_length` (0.29) carry about 65% of the model's decisions, so the score is probably inflated. Sprint 2 adds features that depend less on length.
 
 ## Running the tests
 
